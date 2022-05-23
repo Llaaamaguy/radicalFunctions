@@ -25,16 +25,17 @@ class Function:
             x = i
             new_radicand = self.radicand.replace("x", str(x))
             new_radicand = eval_expr(new_radicand)
-            after_rad = new_radicand**(1/self.index)
-            new_expr = f"{self.co1}*{after_rad}{self.op2}{self.co2}"
-            y = eval_expr(new_expr)
-            x_toAdd = [x]
-            y_toAdd = [y] if y != -0 else [0]
-            if self.index % 2 != 0 and y != 0:
-                x_toAdd.append(-x)
-                y_toAdd.append(-y)
-            for i in range(len(x_toAdd)):
-                points[x_toAdd[i]] = y_toAdd[i]
+            if (new_radicand > 0 and self.index % 2 == 0) or self.index % 2 != 0:
+                after_rad = new_radicand**(1/self.index)
+                new_expr = f"{self.co1}*{after_rad}{self.op2}{self.co2}"
+                y = eval_expr(new_expr)
+                x_toAdd = [x]
+                y_toAdd = [y] if y != -0 else [0]
+                if self.index % 2 != 0 and y != 0:
+                    x_toAdd.append(-x)
+                    y_toAdd.append(-y)
+                for i in range(len(x_toAdd)):
+                    points[x_toAdd[i]] = y_toAdd[i]
 
         ordered = dict(sorted(points.items()))
         points = [np.array(list(ordered.keys())), np.array(list(ordered.values()))]
